@@ -438,7 +438,6 @@ body {
   padding: 32px 0;
   color: var(--text-muted);
   font-size: 13px;
-  border-top: 1px solid var(--card-border);
 }
 
 /* ===== 响应式：设置的是最大列数，实际列数随屏幕宽度自适应 ===== */
