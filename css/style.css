@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+  background: transparent;
+}
+
 :root {
   --bg: #0f0f1a;
   --bg-light: #1a1a2e;
