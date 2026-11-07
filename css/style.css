@@ -385,6 +385,38 @@ body {
   gap: 12px;
 }
 
+.pan-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.pan-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.pan-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.pan-code {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.pan-button {
+  flex-shrink: 0;
+  padding: 8px 20px;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
 /* ===== 分页 ===== */
 .pagination {
   margin-top: 40px;
