@@ -182,20 +182,20 @@ body {
 }
 
 .post-card {
-  background: rgba(15, 15, 26, 0.74);
+  background: rgba(15, 15, 26, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   padding: 20px;
   transition: all 0.3s;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
   display: flex;
   gap: 16px;
   align-items: flex-start;
 }
 
 .post-card:hover {
-  background: rgba(24, 24, 46, 0.88);
+  background: rgba(24, 24, 46, 0.42);
   border-color: rgba(99, 102, 241, 0.45);
   transform: translateY(-2px);
   box-shadow: 0 8px 32px rgba(99, 102, 241, 0.25);
@@ -257,7 +257,7 @@ body {
 }
 
 .post-excerpt {
-  color: var(--text-secondary);
+  color: #ffffff;
   font-size: 14px;
   line-height: 1.6;
   margin-bottom: 12px;
@@ -265,6 +265,7 @@ body {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
 }
 
 .post-footer {
@@ -274,14 +275,17 @@ body {
 }
 
 .read-more {
-  color: var(--primary);
+  color: #ffffff;
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
+  transition: color 0.2s;
 }
 
 .read-more:hover {
-  color: var(--secondary);
+  color: #c4b5fd;
+  text-decoration: underline;
 }
 
 .post-tags {
@@ -298,16 +302,31 @@ body {
   font-size: 12px;
 }
 
+/* 首页卡片内的标签：纯白文字、无底色 */
+.post-card .tag {
+  color: #ffffff;
+  background: none;
+  padding: 0;
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.post-card .tag + .tag::before {
+  content: '·';
+  margin: 0 6px;
+  opacity: 0.8;
+}
+
 /* ===== 文章详情页 ===== */
-/* 文章详情：加半透明玻璃底板，保证正文在视频背景上可读 */
+/* 文章详情：半透明玻璃底板（透明度 0.3，配合强模糊保证正文可读） */
 .post-detail {
   padding: 36px 40px 40px;
-  background: rgba(15, 15, 26, 0.78);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(15, 15, 26, 0.3);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 18px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
 }
 
 .post-header {
@@ -383,9 +402,9 @@ body {
 
 /* ===== 网盘下载卡片（结构：card > content > icon / info / download） ===== */
 .pan-link-card {
-  background: rgba(15, 15, 26, 0.82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(15, 15, 26, 0.3);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(99, 102, 241, 0.28);
   border-radius: 12px;
   padding: 16px 20px;
@@ -396,7 +415,7 @@ body {
 }
 
 .pan-link-card:hover {
-  background: rgba(20, 20, 38, 0.9);
+  background: rgba(20, 20, 38, 0.45);
   border-color: rgba(168, 85, 247, 0.55);
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
@@ -481,6 +500,38 @@ body {
   background: linear-gradient(135deg, #7c7fff, #b975ff);
   box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4);
   transform: translateY(-1px);
+}
+
+/* 提取码复制成功后的按钮状态 */
+.pan-button.copied {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  box-shadow: 0 6px 18px rgba(34, 197, 94, 0.4);
+  transform: none;
+}
+
+/* 复制提示条 */
+#copy-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 36px;
+  transform: translateX(-50%) translateY(12px);
+  background: rgba(15, 15, 26, 0.94);
+  color: #f2f2f7;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(99, 102, 241, 0.45);
+  font-size: 14px;
+  line-height: 1.5;
+  max-width: 80vw;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 999;
+}
+
+#copy-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 @media (max-width: 640px) {
