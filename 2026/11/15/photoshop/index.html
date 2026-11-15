@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wewe323</title>
+  <meta name="description" content="专注分享软件、教程、素材等优质资源">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- hexo injector head_end start -->
+  <style>
+    @keyframes borderGlow {
+      0% {
+        border-color: #3f7cff;
+        box-shadow: 0 0 5px #3f7cff;
+      }
+      33% {
+        border-color: #ff3f7c;
+        box-shadow: 0 0 5px #ff3f7c;
+      }
+      66% {
+        border-color: #7cff3f;
+        box-shadow: 0 0 5px #7cff3f;
+      }
+      100% {
+        border-color: #3f7cff;
+        box-shadow: 0 0 5px #3f7cff;
+      }
+    }
+
+    @keyframes buttonPulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .pan-link-card {
+      margin: 1rem 0;
+      padding: 0.8rem;
+      background: #1a1b1e;
+      border-radius: 8px;
+      transition: all 0.3s;
+      border: 1px solid #2a2b2e;
+      color: #e4e4e4;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pan-link-card:hover {
+      border-color: transparent;
+      animation: borderGlow 4s linear infinite;
+      transform: translateY(-2px);
+    }
+
+    .pan-link-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pan-icon {
+      margin-right: 12px;
+      display: flex;
+      align-items: center;
+      transition: transform 0.3s;
+    }
+
+    .pan-link-card:hover .pan-icon {
+      transform: rotate(360deg);
+    }
+
+    .pan-icon img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    .pan-info {
+      flex-grow: 1;
+      transition: transform 0.3s;
+    }
+
+    .pan-link-card:hover .pan-info {
+      transform: translateX(5px);
+    }
+
+    .pan-name {
+      font-size: 1.1em;
+      font-weight: bold;
+      color: #e4e4e4;
+    }
+
+    .pan-code {
+      font-size: 0.9em;
+      color: #888;
+      margin-top: 4px;
+      transition: color 0.3s;
+    }
+
+    .pan-link-card:hover .pan-code {
+      color: #aaa;
+    }
+
+    .pan-button {
+      background: #3f7cff;
+      color: white;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pan-button:hover {
+      background: #3365d6;
+      animation: buttonPulse 1s ease-in-out infinite;
+    }
+
+    .pan-button::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+      );
+      transform: rotate(45deg);
+      transition: 0.3s;
+      opacity: 0;
+    }
+
+    .pan-button:hover::after {
+      opacity: 1;
+      transform: rotate(45deg) translate(50%, 50%);
+    }
+  </style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.2"></head>
+<body>
+  <!-- 视频背景 -->
+  <div class="video-bg">
+    <video id="bgVideo" autoplay muted loop playsinline>
+      <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+  </div>
+  
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">wewe323</a>
+      <div class="nav-menu">
+        
+          
+            <a href="/" class="nav-link">首页</a>
+          
+            <a href="/categories/软件/" class="nav-link">软件下载</a>
+          
+            <a href="/categories/技巧/" class="nav-link">技巧笔记</a>
+          
+            <a href="/about/" class="nav-link">关于我</a>
+          
+        
+      </div>
+    </div>
+  </nav>
+
+  <!-- 主内容 -->
+  <main class="main-content">
+    <article class="post-detail">
+  <header class="post-header">
+    <h1 class="post-title">photoshop</h1>
+    <div class="post-meta">
+      <span class="post-date">2026-11-15</span>
+      
+    </div>
+  </header>
+
+  <div class="post-content">
+    <p>写 PS 安装教程 的时候，很多新手其实最怕的不是软件本身，而是“下载到一半不知道从哪里来”“安装时弹出一堆看不懂的选项”“装完之后打不开又不知道问题出在哪”。这篇文章不绕弯子，直接把 Adobe Photoshop 的下载、安装、首次启动、常见报错排查一次性讲清楚。不管你是刚接触设计、想学修图剪辑，还是工作中突然要用到 PS，都可以照着下面的步骤操作。内容会尽可能保持截图式的讲解思维，但考虑到篇幅，我会用清单、表格和命令来补齐说明，大家跟着做就行。</p>
+<p>Adobe Photoshop 2026 安装教程：从下载到首次启动的保姆级操作指南</p>
+<ol>
+<li>安装前必须搞懂的三个问题</li>
+</ol>
+<p>1.1 Photoshop 到底是什么软件</p>
+<p>Adobe Photoshop 是 Adobe 公司推出的专业图像处理软件，简称为“PS”。它可以用来做照片修图、图像合成、UI 设计、插画绘制、海报排版、电商详情页设计等。在设计师、摄影师、自媒体运营 、电商从业者、学生群体里，PS 基本属于“人手一个”的工具软件。</p>
+<p>从软件形态上看，Photoshop 最初是单机版软件，现在则主要依托 Adobe Creative Cloud（简称 Creative Cloud 或 CC）平台进行订阅和安装。也就是说，现在安装 PS 的常规路径已经不是“下载一个安装包然后双击安装”那么简单，而是先安装 Adobe Creative Cloud 桌面端，再通过桌面端安装和更新 Photoshop。这个变化是很多新手安装失败的根本原因，因为很多人还在找“旧式安装包”，却不知道官方渠道已经变成订阅制&nbsp; + 云端管理。</p>
+<p>———————</p>
+<div class="pan-link-card">
+      <div class="pan-link-content">
+        <div class="pan-icon">
+          <img src="/css/panlink/baidu.svg" width="24" height="24" alt="baidu" />
+        </div>
+        <div class="pan-info">
+          <div class="pan-name">文件名.zip</div>
+          <div class="pan-code">提取码: 提取码: 1234</div>
+        </div>
+        <div class="pan-download">
+          <a href="https://pan.baidu.com/s/123456" target="_blank" rel="noopener noreferrer">
+            <button class="pan-button">下载</button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+<div class="pan-link-card">
+      <div class="pan-link-content">
+        <div class="pan-icon">
+          <img src="/css/panlink/quark.png" width="24" height="24" alt="quark" />
+        </div>
+        <div class="pan-info">
+          <div class="pan-name">文件名.zip</div>
+          <div class="pan-code">提取码: 提取码: 1234</div>
+        </div>
+        <div class="pan-download">
+          <a href="https://pan.baidu.com/s/123456" target="_blank" rel="noopener noreferrer">
+            <button class="pan-button">下载</button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+<div class="pan-link-card">
+      <div class="pan-link-content">
+        <div class="pan-icon">
+          <img src="/css/panlink/lanzou.png" width="24" height="24" alt="lanzou" />
+        </div>
+        <div class="pan-info">
+          <div class="pan-name">文件名.zip</div>
+          <div class="pan-code">提取码: 提取码: 1234</div>
+        </div>
+        <div class="pan-download">
+          <a href="https://pan.baidu.com/s/123456" target="_blank" rel="noopener noreferrer">
+            <button class="pan-button">下载</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <nav class="post-nav">
+    
+    
+      <a href="/2026/11/07/%E6%B5%8B%E8%AF%95/" class="post-nav-next">下一篇：测试 →</a>
+    
+  </nav>
+</article>
+
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <p>&copy; 2026 zhoudahsen · Powered by Hexo</p>
+  </footer>
+
+  
+<script src="/js/main.js"></script>
+
+  <script>
+    window.THEME_CONFIG = {
+      videoBg: 'https://zhoudahsen.github.io/video/13.mp4',
+      videoList: ''
+    };
+  </script>
+</body>
+</html>
