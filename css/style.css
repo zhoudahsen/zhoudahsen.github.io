@@ -182,22 +182,23 @@ body {
 }
 
 .post-card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
+  background: rgba(15, 15, 26, 0.74);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   padding: 20px;
   transition: all 0.3s;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   display: flex;
   gap: 16px;
   align-items: flex-start;
 }
 
 .post-card:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(99, 102, 241, 0.3);
+  background: rgba(24, 24, 46, 0.88);
+  border-color: rgba(99, 102, 241, 0.45);
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15);
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.25);
 }
 
 /* 卡片左侧缩略图区域 */
@@ -298,8 +299,15 @@ body {
 }
 
 /* ===== 文章详情页 ===== */
+/* 文章详情：加半透明玻璃底板，保证正文在视频背景上可读 */
 .post-detail {
-  padding-top: 20px;
+  padding: 36px 40px 40px;
+  background: rgba(15, 15, 26, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
 }
 
 .post-header {
@@ -373,48 +381,130 @@ body {
   color: var(--text-muted);
 }
 
-/* 网盘卡片样式 */
+/* ===== 网盘下载卡片（结构：card > content > icon / info / download） ===== */
 .pan-link-card {
-  background: rgba(99, 102, 241, 0.1);
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: rgba(15, 15, 26, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(99, 102, 241, 0.28);
   border-radius: 12px;
   padding: 16px 20px;
-  margin: 16px 0;
+  margin: 18px 0;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pan-link-card:hover {
+  background: rgba(20, 20, 38, 0.9);
+  border-color: rgba(168, 85, 247, 0.55);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
+}
+
+/* 内层横排：左图标、中信息、右按钮 */
+.pan-link-content {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .pan-icon {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
   font-size: 24px;
-  flex-shrink: 0;
+}
+
+.pan-icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 .pan-info {
-  flex: 1;
+  flex: 1 1 auto;
   min-width: 0;
 }
 
 .pan-name {
   font-weight: 600;
   color: var(--text-primary);
+  font-size: 15px;
   margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .pan-code {
   font-size: 13px;
   color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 下载区始终贴右：margin-left:auto 兜底，避免被中间内容挤压 */
+.pan-download {
+  flex: 0 0 auto;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.pan-download a {
+  text-decoration: none;
+  display: inline-flex;
 }
 
 .pan-button {
   flex-shrink: 0;
-  padding: 8px 20px;
+  padding: 8px 22px;
   background: linear-gradient(135deg, #6366f1, #a855f7);
-  color: white;
+  color: #ffffff;
+  border: none;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
-  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.pan-button:hover {
+  background: linear-gradient(135deg, #7c7fff, #b975ff);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .pan-link-card {
+    padding: 14px 16px;
+  }
+
+  .pan-link-content {
+    gap: 10px;
+  }
+
+  .pan-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .pan-name {
+    font-size: 14px;
+  }
+
+  .pan-button {
+    padding: 7px 16px;
+    font-size: 13px;
+  }
 }
 
 /* ===== 分页 ===== */
