@@ -8,16 +8,21 @@ document.addEventListener('DOMContentLoaded', function() {
   ];
   const bgVideo = document.getElementById('bgVideo');
   if (bgVideo) {
-    const customVideo = window.THEME_CONFIG && window.THEME_CONFIG.videoBg;
+    const conf = window.THEME_CONFIG || {};
+    const customVideo = conf.videoBg;
     let videoSrc;
     if (customVideo) {
-      // 优先用固定视频
+      // 1. 后台设置了固定视频，优先使用
       videoSrc = customVideo;
     } else {
-      // 从随机列表选
-      const listStr = window.THEME_CONFIG && window.THEME_CONFIG.videoList;
+      // 2. 后台手填的随机列表
+      const listStr = conf.videoList;
       const customList = listStr ? listStr.split(',').map(s => s.trim()).filter(s => s) : [];
-      const sources = customList.length > 0 ? customList : defaultVideoSources;
+      // 3. 自动扫描 source/video 目录得到的本地视频
+      const localList = Array.isArray(conf.localVideos) ? conf.localVideos : [];
+      const sources = customList.length > 0
+        ? customList
+        : (localList.length > 0 ? localList : defaultVideoSources);
       videoSrc = sources[Math.floor(Math.random() * sources.length)];
     }
     bgVideo.querySelector('source').src = videoSrc;
@@ -74,21 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  function showCopyToast(message) {
-    let toast = document.getElementById('copy-toast');
-    if (!toast) {
-      toast = document.createElement('div');
-      toast.id = 'copy-toast';
-      document.body.appendChild(toast);
-    }
-    toast.textContent = message;
-    toast.classList.add('show');
-    clearTimeout(toast._timer);
-    toast._timer = setTimeout(function () {
-      toast.classList.remove('show');
-    }, 1800);
-  }
-
   // 从 "提取码: 1234" 这类文本里剥出纯提取码
   function extractCode(text) {
     let code = (text || '').trim();
@@ -100,6 +90,74 @@ document.addEventListener('DOMContentLoaded', function() {
     return code.trim();
   }
 
+  // ===== 下载确认弹窗 =====
+  let confirmMask = null;
+
+  function closeDownloadConfirm() {
+    if (confirmMask && confirmMask.parentNode) {
+      confirmMask.parentNode.removeChild(confirmMask);
+    }
+    confirmMask = null;
+  }
+
+  function showDownloadConfirm(code, url, copyFailed) {
+    closeDownloadConfirm();
+
+    const mask = document.createElement('div');
+    mask.className = 'dl-confirm-mask';
+
+    const box = document.createElement('div');
+    box.className = 'dl-confirm-box';
+
+    const title = document.createElement('div');
+    title.className = 'dl-confirm-title';
+    title.textContent = copyFailed ? '提取码未复制成功' : '提取码已复制';
+
+    const codeEl = document.createElement('div');
+    codeEl.className = 'dl-confirm-code';
+    codeEl.textContent = code;
+
+    const tip = document.createElement('div');
+    tip.className = 'dl-confirm-tip';
+    tip.textContent = copyFailed
+      ? '请手动选中上面的提取码复制，再前往网盘'
+      : '提取码已在剪贴板，去网盘粘贴即可';
+
+    const actions = document.createElement('div');
+    actions.className = 'dl-confirm-actions';
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'dl-btn dl-btn-cancel';
+    cancelBtn.textContent = '取消';
+
+    const okBtn = document.createElement('button');
+    okBtn.className = 'dl-btn dl-btn-ok';
+    okBtn.textContent = '去网盘下载';
+
+    actions.appendChild(cancelBtn);
+    actions.appendChild(okBtn);
+    box.appendChild(title);
+    box.appendChild(codeEl);
+    box.appendChild(tip);
+    box.appendChild(actions);
+    mask.appendChild(box);
+    document.body.appendChild(mask);
+    confirmMask = mask;
+
+    cancelBtn.addEventListener('click', closeDownloadConfirm);
+    okBtn.addEventListener('click', function () {
+      closeDownloadConfirm();
+      if (url) window.open(url, '_blank', 'noopener');
+    });
+    mask.addEventListener('click', function (ev) {
+      if (ev.target === mask) closeDownloadConfirm();
+    });
+  }
+
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape') closeDownloadConfirm();
+  });
+
   document.addEventListener('click', function (e) {
     const btn = e.target.closest('.pan-button');
     if (!btn) return;
@@ -107,26 +165,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const card = btn.closest('.pan-link-card');
     if (!card) return;
 
+    // 按钮外面包了一层 <a target="_blank">，先拦住默认跳转
+    const linkEl = btn.closest('a');
+    const url = linkEl ? linkEl.href : '';
+    if (url) e.preventDefault();
+
     const codeEl = card.querySelector('.pan-code');
-    if (!codeEl) return;
+    const code = codeEl ? extractCode(codeEl.textContent) : '';
 
-    const code = extractCode(codeEl.textContent);
-    if (!code) return;
+    // 没有提取码：直接打开链接
+    if (!code) {
+      if (url) window.open(url, '_blank', 'noopener');
+      return;
+    }
 
+    // 复制成功后弹窗确认，用户点"去网盘下载"才跳转
     copyToClipboard(code)
       .then(function () {
-        const originLabel = btn.textContent;
-        btn.textContent = '已复制';
-        btn.classList.add('copied');
-        clearTimeout(btn._copyTimer);
-        btn._copyTimer = setTimeout(function () {
-          btn.textContent = originLabel || '下载';
-          btn.classList.remove('copied');
-        }, 1600);
-        showCopyToast('提取码已复制：' + code);
+        showDownloadConfirm(code, url, false);
       })
       .catch(function () {
-        showCopyToast('复制失败，请手动复制：' + code);
+        showDownloadConfirm(code, url, true);
       });
   });
 });
