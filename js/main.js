@@ -25,19 +25,33 @@ document.addEventListener('DOMContentLoaded', function() {
       // 1. 后台设置了固定视频，优先使用
       videoSrc = customVideo;
     } else {
-      // 2. 后台手填的随机列表
+      // 2. 后台手填的随机列表，支持 m: / 移动: 前缀区分移动端
       const listStr = conf.videoList;
-      const customList = listStr ? listStr.split(',').map(s => s.trim()).filter(s => s) : [];
+      const rawList = listStr ? listStr.split(',').map(s => s.trim()).filter(s => s) : [];
+      const customPc = [];
+      const customMobile = [];
+      rawList.forEach(function (item) {
+        const hit = item.match(/^(m|移动)\s*[:：]\s*(.+)$/i);
+        if (hit) customMobile.push(hit[2].trim());
+        else customPc.push(item);
+      });
       // 3. 自动扫描目录：PC 用 source/video，移动端用 source/video/m
       const pcList = Array.isArray(conf.localVideos) ? conf.localVideos : [];
       const mobileList = Array.isArray(conf.localVideosMobile) ? conf.localVideosMobile : [];
       const mobile = isMobileDevice();
-      // 移动端 video/m 目录为空时，回退到根目录，避免移动端黑屏
-      const autoList = mobile ? (mobileList.length > 0 ? mobileList : pcList) : pcList;
 
-      const sources = customList.length > 0
-        ? customList
-        : (autoList.length > 0 ? autoList : defaultVideoSources);
+      let sources = defaultVideoSources;
+      if (mobile) {
+        // 移动端：移动端手填 > 电脑端手填 > m 目录 > 根目录 > 默认
+        if (customMobile.length > 0) sources = customMobile;
+        else if (customPc.length > 0) sources = customPc;
+        else if (mobileList.length > 0) sources = mobileList;
+        else if (pcList.length > 0) sources = pcList;
+      } else {
+        // 电脑端：电脑端手填 > 根目录 > 默认
+        if (customPc.length > 0) sources = customPc;
+        else if (pcList.length > 0) sources = pcList;
+      }
       videoSrc = sources[Math.floor(Math.random() * sources.length)];
     }
     bgVideo.querySelector('source').src = videoSrc;
