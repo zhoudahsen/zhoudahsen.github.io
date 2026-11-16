@@ -6,6 +6,16 @@ document.addEventListener('DOMContentLoaded', function() {
     'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
     'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
   ];
+
+  // 判断是否移动端设备
+  function isMobileDevice() {
+    const ua = navigator.userAgent || '';
+    if (/Android|iPhone|iPod|Mobile|HarmonyOS|MicroMessenger|Windows Phone/i.test(ua)) return true;
+    // iPadOS 13+ 的 UA 伪装成桌面版 Mac，用触点数兜底识别
+    if (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1) return true;
+    return false;
+  }
+
   const bgVideo = document.getElementById('bgVideo');
   if (bgVideo) {
     const conf = window.THEME_CONFIG || {};
@@ -18,11 +28,16 @@ document.addEventListener('DOMContentLoaded', function() {
       // 2. 后台手填的随机列表
       const listStr = conf.videoList;
       const customList = listStr ? listStr.split(',').map(s => s.trim()).filter(s => s) : [];
-      // 3. 自动扫描 source/video 目录得到的本地视频
-      const localList = Array.isArray(conf.localVideos) ? conf.localVideos : [];
+      // 3. 自动扫描目录：PC 用 source/video，移动端用 source/video/m
+      const pcList = Array.isArray(conf.localVideos) ? conf.localVideos : [];
+      const mobileList = Array.isArray(conf.localVideosMobile) ? conf.localVideosMobile : [];
+      const mobile = isMobileDevice();
+      // 移动端 video/m 目录为空时，回退到根目录，避免移动端黑屏
+      const autoList = mobile ? (mobileList.length > 0 ? mobileList : pcList) : pcList;
+
       const sources = customList.length > 0
         ? customList
-        : (localList.length > 0 ? localList : defaultVideoSources);
+        : (autoList.length > 0 ? autoList : defaultVideoSources);
       videoSrc = sources[Math.floor(Math.random() * sources.length)];
     }
     bgVideo.querySelector('source').src = videoSrc;
